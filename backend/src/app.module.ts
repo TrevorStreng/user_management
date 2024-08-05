@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { DataSource } from 'typeorm';
+import { UserModule } from './users/users.module';
+import { User } from './users/user.entity';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
+    UserModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
       autoSchemaFile: 'src/schema.gql',
       // playground: false,
     }),
@@ -16,13 +19,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Pumpkinpie6942069!',
+      password: 'Hippysinthecity420!',
       database: 'human_resources',
-      entities: [],
+      entities: [User],
       synchronize: false,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  // controllers: [AppController],
+  // providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}
