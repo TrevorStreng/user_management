@@ -4,11 +4,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DataSource } from 'typeorm';
 import { UserModule } from './users/users.module';
+import { EmployeeModule } from './employees/employee.module';
 import { User } from './users/user.entity';
 
 @Module({
   imports: [
     UserModule,
+    EmployeeModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/schema.gql',
