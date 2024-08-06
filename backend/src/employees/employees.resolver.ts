@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { Employee } from './employee.entity';
 import { EmployeesService } from './employees.service';
 
@@ -6,8 +6,13 @@ import { EmployeesService } from './employees.service';
 export class EmployeeResolver {
   constructor(private employeeService: EmployeesService) {}
 
-  @Query((returns) => [Employee])
-  findAll() {
-    return this.employeeService.findAll();
+  @Query((returns) => [Employee], { name: 'getEmployees' })
+  getEmloyees() {
+    return this.employeeService.getEmployees();
+  }
+
+  @Query((returns) => Employee, { name: 'getEmployee' })
+  getEmployee(@Args('id', { type: () => Int }) id: number): Promise<Employee> {
+    return this.employeeService.getEmployee(id);
   }
 }
