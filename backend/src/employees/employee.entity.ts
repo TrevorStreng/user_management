@@ -1,12 +1,25 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
+import { Department } from 'src/department/department.entity';
+import { Position } from 'src/position/position.entity';
+import { User } from 'src/users/user.entity';
 
 @ObjectType()
 @Entity()
 export class Employee {
+  // @Field(() => Int)
+  // @PrimaryGeneratedColumn()
+  // id: number;
   @Field(() => Int)
-  @PrimaryGeneratedColumn()
-  id: number;
+  @OneToOne(() => User, (user) => user.employee)
+  user: User;
 
   @Field()
   @Column()
@@ -36,11 +49,13 @@ export class Employee {
   @Column()
   salary: number;
 
-  @Field(() => Int)
-  @Column()
-  department_id: number;
+  @Field(() => Department)
+  @ManyToOne(() => Department, (department) => department.employees)
+  @JoinColumn({ name: 'department_id' })
+  department: Department;
 
-  @Field(() => Int)
-  @Column()
-  position_id: number;
+  @Field(() => Position)
+  @OneToOne(() => Position, (position) => position.employee)
+  @JoinColumn({ name: 'position_id' })
+  position: Position;
 }

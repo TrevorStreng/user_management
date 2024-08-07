@@ -29,6 +29,7 @@ export class CreateEmployeeDto {
   phone_number: string;
 
   @Field()
+  @IsDate()
   @IsNotEmpty()
   date_hired: Date;
 

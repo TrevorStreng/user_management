@@ -2,11 +2,27 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Admin {
+  id: Int!
+  admin_level: Int!
+}
+
 type User {
   id: Int!
   email: String!
   password: String!
   role: String!
+}
+
+type Position {
+  id: Int!
+  position_title: String!
+  department: Department!
+}
+
+type Department {
+  id: Int!
+  department_name: String!
 }
 
 type Employee {
@@ -18,8 +34,8 @@ type Employee {
   phone_number: String!
   date_hired: DateTime!
   salary: Float!
-  department_id: Int!
-  position_id: Int!
+  department: Department!
+  position: Position!
 }
 
 """
@@ -30,13 +46,32 @@ scalar DateTime
 type Query {
   users: [User!]!
   user(id: Int!): User!
-  findAll: [Employee!]!
+  getEmployees: [Employee!]!
+  getEmployee(id: Int!): Employee!
+  departments: [Department!]!
+  department(id: Int!): Department!
+  positions: [Position!]!
+  position(id: Int!): Position!
+  admins: [Admin!]!
+  admin(id: Int!): [Admin!]!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserDto!): User!
   updateUser(id: Int!, updateUserInput: UpdateUserDto!): User!
   deleteUser(id: Int!): Boolean!
+  createEmployee(createEmployeeInput: CreateEmployeeDto!): Employee!
+  updateEmployee(id: Int!, updateEmployeeInput: UpdateEmployeeDto!): Employee!
+  deleteEmployee(id: Int!): Boolean!
+  createDepartment(createDepartmentInput: DepartmentDto!): Department!
+  updateDepartment(id: Int!, updateDepartmentInput: DepartmentDto!): Department!
+  deleteDepartment(id: Int!): Boolean!
+  createPosition(createPositionInput: PositionDto!): Position!
+  updatePosition(id: Int!, updatePositionInput: PositionDto!): Position!
+  deletePosition(id: Int!): Boolean!
+  createAdmin(createAdminInput: AdminDto!): Admin!
+  updateAdmin(id: Int!, updatePositionInput: AdminDto!): Admin!
+  deleteAdmin(id: Int!): Boolean!
 }
 
 input CreateUserDto {
@@ -49,4 +84,42 @@ input UpdateUserDto {
   email: String
   password: String
   role: String
+}
+
+input CreateEmployeeDto {
+  first_name: String!
+  last_name: String!
+  date_of_birth: DateTime!
+  address: String!
+  phone_number: String!
+  date_hired: DateTime!
+  salary: Float!
+  department_id: Int!
+  position_id: Int!
+}
+
+input UpdateEmployeeDto {
+  first_name: String!
+  last_name: String!
+  date_of_birth: DateTime!
+  address: String!
+  phone_number: String!
+  date_hired: DateTime!
+  salary: Float!
+  department_id: Int!
+  position_id: Int!
+}
+
+input DepartmentDto {
+  department_name: String!
+}
+
+input PositionDto {
+  position_title: String!
+  department_id: Int!
+}
+
+input AdminDto {
+  admin_level: Float!
+  user_id: Int!
 }

@@ -13,21 +13,21 @@ export class UsersService {
   ) {}
 
   async getUsers(): Promise<User[]> {
-    return this.userRepository.find();
+    return await this.userRepository.find();
   }
 
   async getUser(id: number): Promise<User> {
-    return this.userRepository.findOneBy({ id });
+    return await this.userRepository.findOneBy({ id });
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(createUserDto);
-    return this.userRepository.save(user);
+    return await this.userRepository.save(user);
   }
 
   async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     this.userRepository.update(id, updateUserDto);
-    return this.userRepository.findOneBy({ id });
+    return await this.userRepository.findOneBy({ id });
   }
 
   async deleteUser(id: number): Promise<void> {
