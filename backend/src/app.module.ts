@@ -13,6 +13,12 @@ import { PositionModule } from './position/position.module';
 import { AdminModule } from './admin/admin.module';
 import { Position } from './position/position.entity';
 import { Admin } from './admin/admin.entity';
+import { Attendance } from './attendance/attendance.entity';
+import { AttendanceModule } from './attendance/attendance.module';
+import { PayrollModule } from './payroll/payroll.module';
+import { Payroll } from './payroll/payroll.entity';
+import { PerformanceReviewModule } from './performanceReview/performanceReview.module';
+import { PerformanceReview } from './performanceReview/performanceReview.entity';
 
 @Module({
   imports: [
@@ -21,6 +27,9 @@ import { Admin } from './admin/admin.entity';
     DepartmentModule,
     PositionModule,
     AdminModule,
+    AttendanceModule,
+    PayrollModule,
+    PerformanceReviewModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/schema.gql',
@@ -33,7 +42,16 @@ import { Admin } from './admin/admin.entity';
       username: 'root',
       password: 'Hippysinthecity420!',
       database: 'human_resources',
-      entities: [User, Employee, Department, Position, Admin],
+      entities: [
+        User,
+        Employee,
+        Department,
+        Position,
+        Admin,
+        Attendance,
+        Payroll,
+        PerformanceReview,
+      ],
       synchronize: false,
     }),
   ],

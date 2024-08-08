@@ -32,7 +32,7 @@ export class AdminService {
 
     if (!user) throw new error(`No user found..`);
 
-    const admin = await this.adminRepository.create({
+    const admin = this.adminRepository.create({
       admin_level,
       user,
     });

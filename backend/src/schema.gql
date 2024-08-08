@@ -2,18 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Admin {
-  id: Int!
-  admin_level: Int!
-}
-
-type User {
-  id: Int!
-  email: String!
-  password: String!
-  role: String!
-}
-
 type Position {
   id: Int!
   position_title: String!
@@ -23,6 +11,28 @@ type Position {
 type Department {
   id: Int!
   department_name: String!
+}
+
+type Attendance {
+  id: Int!
+  date: DateTime!
+  check_in_time: String!
+  check_out_time: String!
+  status: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Payroll {
+  id: Int!
+  pay_date: DateTime!
+  base_salary: Float!
+  bonuses: Float!
+  deductions: Float!
+  net_salary: Float!
 }
 
 type Employee {
@@ -38,10 +48,24 @@ type Employee {
   position: Position!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+type PerformanceReview {
+  id: Int!
+  review_date: DateTime!
+  performance_score: Int!
+  comments: String!
+}
+
+type Admin {
+  id: Int!
+  admin_level: Int!
+}
+
+type User {
+  id: Int!
+  email: String!
+  password: String!
+  role: String!
+}
 
 type Query {
   users: [User!]!
@@ -54,6 +78,12 @@ type Query {
   position(id: Int!): Position!
   admins: [Admin!]!
   admin(id: Int!): [Admin!]!
+  Attendances: [Attendance!]!
+  Attendance(id: Int!): Attendance!
+  payrolls: [Payroll!]!
+  payroll(id: Int!): Payroll!
+  PerformanceReviews: [PerformanceReview!]!
+  performanceReview: PerformanceReview!
 }
 
 type Mutation {
@@ -72,6 +102,15 @@ type Mutation {
   createAdmin(createAdminInput: AdminDto!): Admin!
   updateAdmin(id: Int!, updatePositionInput: AdminDto!): Admin!
   deleteAdmin(id: Int!): Boolean!
+  createAttendance(createAttendanceInput: AttendanceDto!): Attendance!
+  updateAttendance(id: Int!, updateAttendanceInput: AttendanceDto!): Attendance!
+  deleteAttendance(id: Int!): Boolean!
+  createPayroll(createPayrollInput: PayrollDto!): Payroll!
+  updatePayroll(id: Int!, updatePayrollInput: PayrollDto!): Payroll!
+  deletePayroll(id: Int!): Boolean!
+  cretePerformanceReview(createPerformanceReviewInput: PerformanceReviewDto!): PerformanceReview!
+  updatePerformanceReview(id: Int!, updatePerformanceReviewInput: PerformanceReviewDto!): PerformanceReview!
+  deletePerformanceReview(id: Int!): Boolean!
 }
 
 input CreateUserDto {
@@ -122,4 +161,28 @@ input PositionDto {
 input AdminDto {
   admin_level: Float!
   user_id: Int!
+}
+
+input AttendanceDto {
+  date: DateTime!
+  employee_id: Int!
+  check_in_time: String!
+  check_out_time: String!
+  status: String!
+}
+
+input PayrollDto {
+  employee_id: Float!
+  pay_date: DateTime!
+  base_salary: Float!
+  bonuses: Float!
+  deductions: Float!
+}
+
+input PerformanceReviewDto {
+  employee_id: Float!
+  admin_id: Int!
+  review_date: DateTime!
+  performance_score: Float!
+  comments: String!
 }

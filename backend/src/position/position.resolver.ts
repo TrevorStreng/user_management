@@ -8,7 +8,7 @@ export class PositionResolver {
   constructor(private positionService: PositionService) {}
 
   @Query((returns) => [Position], { name: 'positions' })
-  async getPositions() {
+  async getPositions(): Promise<Position[]> {
     return await this.positionService.getPositions();
   }
 

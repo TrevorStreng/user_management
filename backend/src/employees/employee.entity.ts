@@ -10,16 +10,16 @@ import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { Department } from 'src/department/department.entity';
 import { Position } from 'src/position/position.entity';
 import { User } from 'src/users/user.entity';
+import { Attendance } from 'src/attendance/attendance.entity';
+import { Payroll } from 'src/payroll/payroll.entity';
+import { PerformanceReview } from 'src/performanceReview/performanceReview.entity';
 
 @ObjectType()
 @Entity()
 export class Employee {
-  // @Field(() => Int)
-  // @PrimaryGeneratedColumn()
-  // id: number;
   @Field(() => Int)
-  @OneToOne(() => User, (user) => user.employee)
-  user: User;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Field()
   @Column()
@@ -58,4 +58,19 @@ export class Employee {
   @OneToOne(() => Position, (position) => position.employee)
   @JoinColumn({ name: 'position_id' })
   position: Position;
+
+  @OneToOne(() => User, (user) => user.employee)
+  user: User;
+
+  @OneToOne(() => Attendance, (attendance) => attendance.employee)
+  attendance: Attendance;
+
+  @OneToOne(() => Payroll, (payroll) => payroll.employee)
+  payroll: Payroll;
+
+  @OneToOne(
+    () => PerformanceReview,
+    (performanceReview) => performanceReview.employee,
+  )
+  performanceReview: PerformanceReview;
 }
