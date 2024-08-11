@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DataSource } from 'typeorm';
 import { UserModule } from './users/users.module';
@@ -19,17 +20,11 @@ import { PayrollModule } from './payroll/payroll.module';
 import { Payroll } from './payroll/payroll.entity';
 import { PerformanceReviewModule } from './performanceReview/performanceReview.module';
 import { PerformanceReview } from './performanceReview/performanceReview.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    UserModule,
-    EmployeeModule,
-    DepartmentModule,
-    PositionModule,
-    AdminModule,
-    AttendanceModule,
-    PayrollModule,
-    PerformanceReviewModule,
+    ConfigModule.forRoot({ envFilePath: 'src/config.env', isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/schema.gql',
@@ -37,11 +32,11 @@ import { PerformanceReview } from './performanceReview/performanceReview.entity'
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'Hippysinthecity420!',
-      database: 'human_resources',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
       entities: [
         User,
         Employee,
@@ -54,6 +49,15 @@ import { PerformanceReview } from './performanceReview/performanceReview.entity'
       ],
       synchronize: false,
     }),
+    UserModule,
+    EmployeeModule,
+    DepartmentModule,
+    PositionModule,
+    AdminModule,
+    AttendanceModule,
+    PayrollModule,
+    PerformanceReviewModule,
+    AuthModule,
   ],
 })
 export class AppModule {

@@ -5,20 +5,24 @@
 // @Injectable()
 // export abstract class BaseService<T> {
 //   constructor(
-//     protected baseRepository: Repository<T>,
-//     createDto: unknown,
-//   ) {}
+//     // public x: unknown,
+//     // @InjectRepository(x)
+//     private baseRepository: Repository<T>,
+//     // createDto: unknown,
+//   ) {
+//     // this.baseRepository = baseRepository;
+//   }
 
 //   async findAll(): Promise<T[]> {
 //     return this.baseRepository.find();
 //   }
 
-//   // async findOne(id: number): Promise<T | null> {
-//   //   return this.baseRepository.findOneBy({ id });
-//   // }
-
-//   async createOne(createDto): Promise<T[]> {
-//     const object = this.baseRepository.create(createDto);
-//     return this.baseRepository.save(object);
+//   async findOne(id: number): Promise<T> {
+//     return this.baseRepository.findOneBy({ id });
 //   }
+
+//   // async createOne(createDto): Promise<T[]> {
+//   //   const object = this.baseRepository.create(createDto);
+//   //   return this.baseRepository.save(object);
+//   // }
 // }

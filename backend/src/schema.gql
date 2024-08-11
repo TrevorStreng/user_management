@@ -67,9 +67,18 @@ type User {
   role: String!
 }
 
+type LoginDto {
+  token: String!
+  id: Float!
+  email: String!
+  password: String!
+  role: String!
+}
+
 type Query {
   users: [User!]!
-  user(id: Int!): User!
+  userById(id: Int!): User!
+  userByEmail(email: String!): User!
   getEmployees: [Employee!]!
   getEmployee(id: Int!): Employee!
   departments: [Department!]!
@@ -111,6 +120,7 @@ type Mutation {
   cretePerformanceReview(createPerformanceReviewInput: PerformanceReviewDto!): PerformanceReview!
   updatePerformanceReview(id: Int!, updatePerformanceReviewInput: PerformanceReviewDto!): PerformanceReview!
   deletePerformanceReview(id: Int!): Boolean!
+  signIn(email: String!, password: String!): LoginDto!
 }
 
 input CreateUserDto {

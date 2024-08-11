@@ -3,22 +3,31 @@ import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
-// import { BaseResolver } from 'src/base/base.resolver';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.gaurd';
 
 @Resolver((of: any) => User)
 export class UserResolver {
   constructor(private usersService: UsersService) {
-    // super(usersService, createUserDto, updateUserDto, User);
+    // super(usersService, User);
   }
 
   @Query((returns) => [User], { name: 'users' })
-  async getUsers() {
+  async findAll() {
     return await this.usersService.getUsers();
   }
 
-  @Query((returns) => User, { name: 'user' })
-  async getUser(@Args('id', { type: () => Int }) id: number): Promise<User> {
-    return await this.usersService.getUser(id);
+  @Query((returns) => User, { name: 'userById' })
+  @UseGuards(AuthGuard)
+  async getUserById(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<User> {
+    return await this.usersService.getUserById(id);
+  }
+
+  @Query((returns) => User, { name: 'userByEmail' })
+  async getUserByEmail(@Args('email') email: string): Promise<User> {
+    return await this.usersService.getUserByEmail(email);
   }
 
   @Mutation(() => User, { name: 'createUser' })

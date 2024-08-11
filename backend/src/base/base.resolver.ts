@@ -7,8 +7,8 @@
 //   abstract class BaseResolverHost {
 //     constructor(
 //       private readonly baseService: BaseService<T>,
-//       private readonly createDto,
-//       private readonly updateDto,
+//       // private readonly createDto,
+//       // private readonly updateDto,
 //       private readonly Entity,
 //     ) {}
 //     @Query((type) => [classRef], { name: `getAll${classRef.name}` })
@@ -16,15 +16,15 @@
 //       return this.baseService.findAll();
 //     }
 
-//     // @Query((type) => classRef, { name: `get${classRef.name}` })
-//     // async findOne(@Args('id', { type: () => Int }) id: number): Promise<T> {
-//     //   return this.baseService.findOne(id);
-//     // }
-
-//     @Mutation(() => Entity, { name: 'createOne' })
-//     async createOne(@Args('createOneInput') createDto): Promise<T[]> {
-//       return this.baseService.createOne(createDto);
+//     @Query((type) => classRef, { name: `get${classRef.name}` })
+//     async findOne(@Args('id', { type: () => Int }) id: number): Promise<T> {
+//       return this.baseService.findOne(id);
 //     }
+
+//     //   @Mutation(() => Entity, { name: 'createOne' })
+//     //   async createOne(@Args('createOneInput') createDto): Promise<T[]> {
+//     //     return this.baseService.createOne(createDto);
+//     //   }
 //   }
 //   return BaseResolverHost;
 // }

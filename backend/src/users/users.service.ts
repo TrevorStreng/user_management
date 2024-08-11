@@ -10,14 +10,20 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {}
+  ) {
+    // super(User, userRepository);
+  }
 
   async getUsers(): Promise<User[]> {
     return await this.userRepository.find();
   }
 
-  async getUser(id: number): Promise<User> {
+  async getUserById(id: number): Promise<User> {
     return await this.userRepository.findOneBy({ id });
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOneBy({ email });
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
