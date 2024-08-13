@@ -77,10 +77,10 @@ type LoginDto {
 
 type Query {
   users: [User!]!
-  userById(id: Int!): User!
+  userById: User!
   userByEmail(email: String!): User!
   getEmployees: [Employee!]!
-  getEmployee(id: Int!): Employee!
+  getEmployee: Employee!
   departments: [Department!]!
   department(id: Int!): Department!
   positions: [Position!]!
@@ -99,7 +99,7 @@ type Mutation {
   createUser(createUserInput: CreateUserDto!): User!
   updateUser(id: Int!, updateUserInput: UpdateUserDto!): User!
   deleteUser(id: Int!): Boolean!
-  createEmployee(createEmployeeInput: CreateEmployeeDto!): Employee!
+  createEmployee(userEmailInput: String!, createEmployeeInput: CreateEmployeeDto!): Employee!
   updateEmployee(id: Int!, updateEmployeeInput: UpdateEmployeeDto!): Employee!
   deleteEmployee(id: Int!): Boolean!
   createDepartment(createDepartmentInput: DepartmentDto!): Department!

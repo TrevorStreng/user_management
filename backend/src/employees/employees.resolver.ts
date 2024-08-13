@@ -1,14 +1,21 @@
-import { Args, Int, Query, Resolver, Mutation } from '@nestjs/graphql';
+import { Args, Int, Query, Resolver, Mutation, Context } from '@nestjs/graphql';
 import { Employee } from './employee.entity';
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/createEmployee.dto';
 import { UpdateEmployeeDto } from './dto/updateEmloyee.dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.gaurd';
+import { AdminGaurd } from 'src/admin/admin.gaurd';
+import { UsersService } from 'src/users/users.service';
 // import { Base } from 'src/base/base.entity';
 // import { BaseResolver } from 'src/base/base.resolver';
 
 @Resolver((of: any) => Employee)
 export class EmployeeResolver {
-  constructor(private employeeService: EmployeesService) {
+  constructor(
+    private employeeService: EmployeesService,
+    private userService: UsersService,
+  ) {
     // super(employeeService);
   }
 
@@ -18,17 +25,26 @@ export class EmployeeResolver {
   }
 
   @Query((returns) => Employee, { name: 'getEmployee' })
-  async getEmployee(
-    @Args('id', { type: () => Int }) id: number,
-  ): Promise<Employee> {
+  @UseGuards(AuthGuard)
+  async getEmployee(@Context('user') user): Promise<Employee> {
+    const id = user.sub;
     return await this.employeeService.getEmployee(id);
   }
 
   @Mutation(() => Employee, { name: 'createEmployee' })
+  @UseGuards(AuthGuard, AdminGaurd)
   async createEmployee(
+    // @Context('user') user, // this is going to be needed to verify admin
+    // @Args('id', { type: () => Int }) id: number,
+    @Args('userEmailInput') email: string,
     @Args('createEmployeeInput') createEmployeeDto: CreateEmployeeDto,
   ): Promise<Employee> {
-    return await this.employeeService.createEmployee(createEmployeeDto);
+    // const id = user.sub;
+    const newEmployee = await this.userService.getUserByEmail(email);
+    return await this.employeeService.createEmployee(
+      newEmployee.id,
+      createEmployeeDto,
+    );
   }
 
   @Mutation(() => Employee, { name: 'updateEmployee' })

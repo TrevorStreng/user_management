@@ -22,6 +22,10 @@ export class User {
   @Column()
   role: string;
 
+  // @Field()
+  @Column()
+  isAdmin: Boolean;
+
   @OneToOne(() => Admin, (admin) => admin.user)
   admin: Admin;
 

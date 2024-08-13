@@ -1,10 +1,10 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
   OneToOne,
+  PrimaryColumn,
 } from 'typeorm';
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { Department } from 'src/department/department.entity';
@@ -18,7 +18,7 @@ import { PerformanceReview } from 'src/performanceReview/performanceReview.entit
 @Entity()
 export class Employee {
   @Field(() => Int)
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: number;
 
   @Field()

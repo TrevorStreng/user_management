@@ -7,6 +7,10 @@ import { Position } from 'src/position/position.entity';
 import { Department } from 'src/department/department.entity';
 import { Attendance } from 'src/attendance/attendance.entity';
 import { Payroll } from 'src/payroll/payroll.entity';
+import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/user.entity';
+import { AdminService } from 'src/admin/admin.service';
+import { Admin } from 'src/admin/admin.entity';
 
 @Module({
   imports: [
@@ -16,8 +20,10 @@ import { Payroll } from 'src/payroll/payroll.entity';
       Department,
       Attendance,
       Payroll,
+      User,
+      Admin,
     ]),
   ],
-  providers: [EmployeeResolver, EmployeesService],
+  providers: [EmployeeResolver, EmployeesService, UsersService, AdminService],
 })
 export class EmployeeModule {}

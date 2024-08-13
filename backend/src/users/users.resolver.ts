@@ -1,4 +1,4 @@
-import { Args, Query, Resolver, Mutation, Int } from '@nestjs/graphql';
+import { Args, Query, Resolver, Mutation, Int, Context } from '@nestjs/graphql';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/createUser.dto';
@@ -19,9 +19,8 @@ export class UserResolver {
 
   @Query((returns) => User, { name: 'userById' })
   @UseGuards(AuthGuard)
-  async getUserById(
-    @Args('id', { type: () => Int }) id: number,
-  ): Promise<User> {
+  async getUserById(@Context('user') user): Promise<User> {
+    const id = user.sub;
     return await this.usersService.getUserById(id);
   }
 

@@ -1,11 +1,15 @@
-import { Args, Query, Resolver, Mutation, Int } from '@nestjs/graphql';
+import { Args, Query, Resolver, Mutation, Int, Context } from '@nestjs/graphql';
 import { Admin } from './admin.entity';
 import { AdminService } from './admin.service';
 import { AdminDto } from './dto/admin.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Resolver((of: any) => Admin)
 export class AdminResolver {
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    // private userService: UsersService,
+  ) {}
 
   @Query((returns) => [Admin], { name: 'admins' })
   async getAdmins() {
@@ -14,6 +18,10 @@ export class AdminResolver {
 
   @Query((returns) => [Admin], { name: 'admin' })
   async getAdmin(@Args('id', { type: () => Int }) id: number): Promise<Admin> {
+    // console.log(user);
+    // const id = user.sub;
+    // const x = await this.userService.getUserById(id);
+
     return await this.adminService.getAdmin(id);
   }
 

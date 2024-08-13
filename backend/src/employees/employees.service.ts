@@ -25,10 +25,13 @@ export class EmployeesService {
   }
 
   async getEmployee(id: number): Promise<Employee> {
-    return await this.employeeRepository.findOneBy({ id });
+    const user = await this.employeeRepository.findOneBy({ id });
+    console.log(user);
+    return user;
   }
 
   async createEmployee(
+    id: number,
     createEmployeeDto: CreateEmployeeDto,
   ): Promise<Employee> {
     const department = await this.departmentRepository.findOneBy({
@@ -49,6 +52,7 @@ export class EmployeesService {
     } = createEmployeeDto;
 
     const employee = this.employeeRepository.create({
+      id,
       first_name,
       last_name,
       date_of_birth,
