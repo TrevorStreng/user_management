@@ -3,6 +3,9 @@ import { Admin } from './admin.entity';
 import { AdminService } from './admin.service';
 import { AdminDto } from './dto/admin.dto';
 import { UsersService } from 'src/users/users.service';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.gaurd';
+import { AdminGaurd } from './admin.gaurd';
 
 @Resolver((of: any) => Admin)
 export class AdminResolver {
@@ -26,6 +29,7 @@ export class AdminResolver {
   }
 
   @Mutation(() => Admin, { name: 'createAdmin' })
+  @UseGuards(AuthGuard, AdminGaurd)
   async createAdmin(
     @Args('createAdminInput') createAdminDto: AdminDto,
   ): Promise<Admin> {

@@ -21,6 +21,8 @@ import { Payroll } from './payroll/payroll.entity';
 import { PerformanceReviewModule } from './performanceReview/performanceReview.module';
 import { PerformanceReview } from './performanceReview/performanceReview.entity';
 import { AuthModule } from './auth/auth.module';
+import { Company } from './company/company.entity';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
@@ -46,6 +48,7 @@ import { AuthModule } from './auth/auth.module';
         Attendance,
         Payroll,
         PerformanceReview,
+        Company,
       ],
       synchronize: false,
     }),
@@ -58,6 +61,7 @@ import { AuthModule } from './auth/auth.module';
     PayrollModule,
     PerformanceReviewModule,
     AuthModule,
+    CompanyModule,
   ],
 })
 export class AppModule {

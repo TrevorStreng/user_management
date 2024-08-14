@@ -24,6 +24,10 @@ export class AdminService {
     return await this.adminRepository.findOneBy({ id });
   }
 
+  async checkAdminByUserId(userId: number) {
+    return await this.adminRepository.findOneBy({ user: { id: userId } });
+  }
+
   async createAdmin(createAdminDto: AdminDto): Promise<Admin> {
     const { admin_level, user_id } = createAdminDto;
     console.log(createAdminDto);

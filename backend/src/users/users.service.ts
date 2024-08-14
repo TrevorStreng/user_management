@@ -28,11 +28,11 @@ export class UsersService {
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(createUserDto);
-    return await this.userRepository.save({ ...user, isAdmin: false });
+    return await this.userRepository.save(user);
   }
 
   async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    this.userRepository.update(id, updateUserDto);
+    await this.userRepository.update(id, updateUserDto);
     return await this.userRepository.findOneBy({ id });
   }
 

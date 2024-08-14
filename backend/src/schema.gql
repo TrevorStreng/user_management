@@ -60,6 +60,13 @@ type Admin {
   admin_level: Int!
 }
 
+type Company {
+  id: Int!
+  name: String!
+  address: String!
+  industry: String!
+}
+
 type User {
   id: Int!
   email: String!
@@ -93,6 +100,9 @@ type Query {
   payroll(id: Int!): Payroll!
   PerformanceReviews: [PerformanceReview!]!
   performanceReview: PerformanceReview!
+  Companies: [Company!]!
+  companyByInput(id: Int!): Company!
+  companyByJwt: Company!
 }
 
 type Mutation {
@@ -121,6 +131,9 @@ type Mutation {
   updatePerformanceReview(id: Int!, updatePerformanceReviewInput: PerformanceReviewDto!): PerformanceReview!
   deletePerformanceReview(id: Int!): Boolean!
   signIn(email: String!, password: String!): LoginDto!
+  createCompany(createCompanyInput: CreateCompanyDto!): Company!
+  updateCompany(id: Int!, updateCompanyInput: UpdateCompanyDto!): Company!
+  deleteCompany(id: Int!): Boolean!
 }
 
 input CreateUserDto {
@@ -195,4 +208,16 @@ input PerformanceReviewDto {
   review_date: DateTime!
   performance_score: Float!
   comments: String!
+}
+
+input CreateCompanyDto {
+  name: String!
+  address: String!
+  industry: String!
+}
+
+input UpdateCompanyDto {
+  name: String!
+  address: String!
+  industry: String!
 }
