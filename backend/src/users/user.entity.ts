@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Admin } from 'src/admin/admin.entity';
@@ -35,6 +36,7 @@ export class User {
   @OneToOne(() => Employee, (employee) => employee.user)
   employee: Employee;
 
-  @ManyToOne(() => Company, (company) => company.users)
-  company: Company;
+  @ManyToOne(() => Company, (company) => company.users, { nullable: true })
+  @JoinColumn({ name: 'company_id' })
+  company?: Company | null;
 }

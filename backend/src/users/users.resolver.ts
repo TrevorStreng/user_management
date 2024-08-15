@@ -29,14 +29,8 @@ export class UserResolver {
     return await this.usersService.getUserByEmail(email);
   }
 
-  @Mutation(() => User, { name: 'createUser' })
-  async createUser(
-    @Args('createUserInput') createUserDto: CreateUserDto,
-  ): Promise<User> {
-    return await this.usersService.createUser(createUserDto);
-  }
-
   @Mutation(() => User, { name: 'updateUser' })
+  @UseGuards(AuthGuard)
   async updateUser(
     @Args('id', { type: () => Int }) id: number,
     @Args('updateUserInput') updateUserDto: UpdateUserDto,

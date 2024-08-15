@@ -106,7 +106,6 @@ type Query {
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserDto!): User!
   updateUser(id: Int!, updateUserInput: UpdateUserDto!): User!
   deleteUser(id: Int!): Boolean!
   createEmployee(userEmailInput: String!, createEmployeeInput: CreateEmployeeDto!): Employee!
@@ -131,15 +130,10 @@ type Mutation {
   updatePerformanceReview(id: Int!, updatePerformanceReviewInput: PerformanceReviewDto!): PerformanceReview!
   deletePerformanceReview(id: Int!): Boolean!
   signIn(email: String!, password: String!): LoginDto!
+  createAccount(createAccountInput: CreateUserDto!): User!
   createCompany(createCompanyInput: CreateCompanyDto!): Company!
   updateCompany(id: Int!, updateCompanyInput: UpdateCompanyDto!): Company!
   deleteCompany(id: Int!): Boolean!
-}
-
-input CreateUserDto {
-  email: String!
-  password: String!
-  role: String!
 }
 
 input UpdateUserDto {
@@ -208,6 +202,12 @@ input PerformanceReviewDto {
   review_date: DateTime!
   performance_score: Float!
   comments: String!
+}
+
+input CreateUserDto {
+  email: String!
+  password: String!
+  role: String!
 }
 
 input CreateCompanyDto {

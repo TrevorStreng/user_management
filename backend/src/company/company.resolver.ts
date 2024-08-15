@@ -5,10 +5,14 @@ import { CreateCompanyDto } from './dto/createCompany.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.gaurd';
 import { UpdateCompanyDto } from './dto/updateCompany.dto';
+import { AdminService } from 'src/admin/admin.service';
 
 @Resolver((of: any) => Company)
 export class CompanyResolver {
-  constructor(private companyService: CompanyService) {}
+  constructor(
+    private companyService: CompanyService,
+    private adminService: AdminService,
+  ) {}
 
   @Query((returns) => [Company], { name: 'Companies' })
   async findAll() {
@@ -29,13 +33,20 @@ export class CompanyResolver {
   }
 
   @Mutation((returns) => Company, { name: 'createCompany' })
+  @UseGuards(AuthGuard)
   async createCompany(
-    @Args('createCompanyInput') createCompanyDto: CreateCompanyDto,
+    @Context('user') user,
+    @Args('createCompanyInput')
+    createCompanyDto: CreateCompanyDto,
   ): Promise<Company> {
+    // TODO: when creating a company make creator an admin
+    await this.adminService.createAdmin({ admin_level: 1, user_id: user.sub });
+
     return await this.companyService.createCompany(createCompanyDto);
   }
 
   @Mutation(() => Company, { name: 'updateCompany' })
+  @UseGuards(AuthGuard)
   async updateCompany(
     @Args('id', { type: () => Int }) id: number,
     @Args('updateCompanyInput') updateCompanyDto: UpdateCompanyDto,
