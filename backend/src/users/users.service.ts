@@ -4,17 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
-// import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    // private authService: AuthService,
-  ) {
-    // super(User, userRepository);
-  }
+  ) {}
 
   async getUsers(): Promise<User[]> {
     return await this.userRepository.find();
@@ -33,8 +29,7 @@ export class UsersService {
     user.company = null;
     const savedUser = await this.userRepository.save(user);
 
-    // await this.authService.signIn(savedUser.email, savedUser.password);
-    savedUser.password = null;
+    savedUser.password = '';
 
     return savedUser;
   }

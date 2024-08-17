@@ -4,17 +4,25 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { User } from 'src/users/user.entity';
 import { CreateUserDto } from 'src/users/dto/createUser.dto';
+import { HashingService } from './hashing.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private jwtService: JwtService,
+    private readonly hashingService: HashingService,
   ) {}
 
-  async signIn(email: string, pass: string): Promise<any> {
+  async signIn(email: string, plainTextPassword: string): Promise<any> {
     const user = await this.usersService.getUserByEmail(email);
-    if (user?.password !== pass) {
+
+    if (
+      !(await this.hashingService.comparePasswords(
+        plainTextPassword,
+        user.password,
+      ))
+    ) {
       throw new UnauthorizedException();
     }
 
@@ -30,8 +38,13 @@ export class AuthService {
   }
 
   async createAccount(createUserDto: CreateUserDto): Promise<User> {
-    const savedUser = this.usersService.createUser(createUserDto);
-    await this.signIn(createUserDto.email, createUserDto.password);
+    const plainTextPassword = createUserDto.password;
+    createUserDto.password = await this.hashingService.hashPassword(
+      createUserDto.password,
+    );
+    console.log(createUserDto.password);
+    const savedUser = await this.usersService.createUser(createUserDto);
+    await this.signIn(createUserDto.email, plainTextPassword);
     return savedUser;
   }
 }
